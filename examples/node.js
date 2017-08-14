@@ -1,11 +1,11 @@
 'use strict';
 
-const FullNode = require('bcoin/lib/node/fullnode');
+const FullNode = require('../lib/node/fullnode');
 
 const node = new FullNode({
-  network: 'testnet',
-  db: 'memory',
-  workers: true
+  // network : 'testnet',
+  db: 'leveldb',
+  // workers: true
 });
 
 (async () => {

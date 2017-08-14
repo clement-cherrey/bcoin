@@ -3,3 +3,7 @@ docs/reference/
 docker_data/
 browser/bcoin*
 npm-debug.log
+.tags
+.tags_swap
+package-lock.json
+experiment/
