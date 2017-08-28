@@ -3,6 +3,7 @@ const fs = require('fs')
 
 const FullNode = require('../lib/node/fullnode');
 const util = require('../lib/utils/util');
+const NetAddress = require('../lib/primitives/netaddress');
 
 const node = new FullNode({
   // network : 'testnet',
@@ -69,4 +70,20 @@ const node = new FullNode({
   // });
 
   node.startSync();
+
+  try {
+    let addr = new NetAddress({
+     //  services: 1,
+      host: "163.172.42.186",
+      port: 8333,
+      time: util.now()
+    })
+    node.pool.createOutbound(addr)
+  }
+  catch (e) {
+    console.error(e);
+  }
+
+
+
 })();
