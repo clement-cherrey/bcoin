@@ -11,40 +11,43 @@ const node = new FullNode({
 });
 
 (async () => {
+  console.log(node.pool.hosts.size())
   await node.open();
+  console.log(node.pool.hosts.size())
   await node.connect();
+  console.log(node.pool.hosts.size())
   // let hehe = await node.chain.db.getTip()
-  let b1 = await node.chain.getEntry(481900);
-  let b2 = await node.chain.getEntry(481810);
-  let b3 = await node.chain.getEntry(481710);
-  let inv1 = b1.toInv()
-  let inv2 = b2.toInv()
-  let inv3 = b3.toInv()
-  // console.log(hehe);
-  console.log(util.revHex(inv1.hash))
-  console.log(util.revHex(inv2.hash))
-  console.log(util.revHex(inv3.hash))
+  // let b1 = await node.chain.getEntry(481900);
+  // let b2 = await node.chain.getEntry(481810);
+  // let b3 = await node.chain.getEntry(481710);
+  // let inv1 = b1.toInv()
+  // let inv2 = b2.toInv()
+  // let inv3 = b3.toInv()
+  // // console.log(hehe);
+  // console.log(util.revHex(inv1.hash))
+  // console.log(util.revHex(inv2.hash))
+  // console.log(util.revHex(inv3.hash))
 
-  let hashes = []
+  // let hashes = []
+  //
+  // for (var i = 0; i < 100; i++) {
+  //   let height = 481700 + i
+  //   let b = await node.chain.getEntry(height);
+  //   let inv = b.toInv()
+  //   let hash = util.revHex(inv.hash)
+  //   // console.log(hash)
+  //   hashes.push(hash)
+  // }
+  // console.log('after loop');
 
-  for (var i = 0; i < 100; i++) {
-    let height = 481700 + i
-    let b = await node.chain.getEntry(height);
-    let inv = b.toInv()
-    let hash = util.revHex(inv.hash)
-    console.log(hash)
-    hashes.push(hash)
-  }
-  console.log('after loop');
-
-  try {
-    console.log(hashes.length);
-    const newFileContent = JSON.stringify(hashes)
-    fs.writeFileSync(__dirname + '/hashes.json', newFileContent, 'utf8') // synchronous
-  } catch (e) {
-    console.log(e);
-  }
-  console.log('> File rewrite');
+  // try {
+  //   console.log(hashes.length);
+  //   const newFileContent = JSON.stringify(hashes)
+  //   fs.writeFileSync(__dirname + '/hashes.json', newFileContent, 'utf8') // synchronous
+  // } catch (e) {
+  //   console.log(e);
+  // }
+  // console.log('> File rewrite');
 
   node.on('connect', (entry, block) => {
     console.log('%s (%d) added to chain.', entry.rhash(), entry.height);
