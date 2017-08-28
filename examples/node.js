@@ -1,6 +1,8 @@
 'use strict';
+const fs = require('fs')
 
 const FullNode = require('../lib/node/fullnode');
+const util = require('../lib/utils/util');
 
 const node = new FullNode({
   // network : 'testnet',
@@ -11,14 +13,57 @@ const node = new FullNode({
 (async () => {
   await node.open();
   await node.connect();
+  // let hehe = await node.chain.db.getTip()
+  let b1 = await node.chain.getEntry(481900);
+  let b2 = await node.chain.getEntry(481810);
+  let b3 = await node.chain.getEntry(481710);
+  let inv1 = b1.toInv()
+  let inv2 = b2.toInv()
+  let inv3 = b3.toInv()
+  // console.log(hehe);
+  console.log(util.revHex(inv1.hash))
+  console.log(util.revHex(inv2.hash))
+  console.log(util.revHex(inv3.hash))
+
+  let hashes = []
+
+  for (var i = 0; i < 100; i++) {
+    let height = 481700 + i
+    let b = await node.chain.getEntry(height);
+    let inv = b.toInv()
+    let hash = util.revHex(inv.hash)
+    console.log(hash)
+    hashes.push(hash)
+  }
+  console.log('after loop');
+
+  try {
+    console.log(hashes.length);
+    const newFileContent = JSON.stringify(hashes)
+    fs.writeFileSync(__dirname + '/hashes.json', newFileContent, 'utf8') // synchronous
+  } catch (e) {
+    console.log(e);
+  }
+  console.log('> File rewrite');
 
   node.on('connect', (entry, block) => {
     console.log('%s (%d) added to chain.', entry.rhash(), entry.height);
   });
 
   node.on('tx', (tx) => {
-    console.log('%s added to mempool.', tx.txid());
+    // console.log('%s added to mempool.', tx.txid());
   });
+
+  // node.pool.on('CMPCTBLOCK_PACKET', (packet, peer) => {
+  //   console.log();
+  // });
+  //
+  // node.pool.on('PING_PACKET', (packet, peer) => {
+  //   console.log(Buffer.isBuffer(packet))
+  //   // console.log(Object.keys(peer))
+  //   console.log(peer.blockMap)
+  //   // console.log(peer);
+  // });
 
   node.startSync();
 })();
