@@ -12,11 +12,11 @@ const node = new FullNode({
 });
 
 (async () => {
-  console.log(node.pool.hosts.size())
+  // console.log(node.pool.hosts.size())
   await node.open();
-  console.log(node.pool.hosts.size())
+  // console.log(node.pool.hosts.size())
   await node.connect();
-  console.log(node.pool.hosts.size())
+  console.log('after connect:', node.pool.hosts.size())
   // let hehe = await node.chain.db.getTip()
   // let b1 = await node.chain.getEntry(481900);
   // let b2 = await node.chain.getEntry(481810);
@@ -58,31 +58,32 @@ const node = new FullNode({
     // console.log('%s added to mempool.', tx.txid());
   });
 
-  // node.pool.on('CMPCTBLOCK_PACKET', (packet, peer) => {
-  //   console.log();
-  // });
-  //
-  // node.pool.on('PING_PACKET', (packet, peer) => {
-  //   console.log(Buffer.isBuffer(packet))
-  //   // console.log(Object.keys(peer))
-  //   console.log(peer.blockMap)
-  //   // console.log(peer);
-  // });
-
   node.startSync();
 
-  try {
-    let addr = new NetAddress({
-     //  services: 1,
-      host: "163.172.42.186",
-      port: 8333,
-      time: util.now()
-    })
-    node.pool.createOutbound(addr)
-  }
-  catch (e) {
-    console.error(e);
-  }
+  node.pool.hosts.reset()
+  node.pool.peers.destroy()
+  // node.pool.hosts.reset()
+
+
+  console.log('after destroy&reset:', node.pool.hosts.size())
+
+  setTimeout(() => {
+    console.log('later...', node.pool.hosts.size())
+  }, 5000)
+
+
+  // try {
+  //   let addr = new NetAddress({
+  //    //  services: 1,
+  //     host: "163.172.42.186",
+  //     port: 8333,
+  //     time: util.now()
+  //   })
+  //   node.pool.createOutbound(addr)
+  // }
+  // catch (e) {
+  //   console.error(e);
+  // }
 
 
 
