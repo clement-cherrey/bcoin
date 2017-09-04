@@ -69,6 +69,8 @@ const node = new FullNode({
 
   setTimeout(() => {
     console.log('later...', node.pool.hosts.size())
+    const addr = NetAddress.fromHostname("151.61.198.73:8333", node.pool.hosts.network);
+    console.log(addr);
   }, 5000)
 
 
