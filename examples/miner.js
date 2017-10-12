@@ -1,9 +1,9 @@
 'use strict';
 
-const KeyRing = require('bcoin/lib/primitives/keyring');
-const WorkerPool = require('bcoin/lib/workers/workerpool');
-const Chain = require('bcoin/lib/blockchain/chain');
-const Miner = require('bcoin/lib/mining/miner');
+const KeyRing = require('../lib/primitives/keyring');
+const WorkerPool = require('../lib/workers/workerpool');
+const Chain = require('../lib/blockchain/chain');
+const Miner = require('../lib/mining/miner');
 
 const key = KeyRing.generate('regtest');
 
